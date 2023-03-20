@@ -11,7 +11,7 @@ export default function LoginPage() {
         redirectTo="/"
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
-        theme="default"
+        theme="dark"
         providers={["google"]}
       />
     </div>
