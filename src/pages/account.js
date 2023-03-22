@@ -8,10 +8,11 @@ import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import Layout from "@/components/Layout";
 import LoginPage from "@/pages/login";
+import { useRouter } from "next/router";
 
 export default function AccountPage() {
+  const router = useRouter();
   const supabase = useSupabaseClient();
-  // Hunch: there's something about useSession on this page that causes the logout button to not work
   const session = useSession();
   const user = useUser();
   const [loading, setLoading] = useState(true);
@@ -72,6 +73,11 @@ export default function AccountPage() {
     }
   }
 
+  async function handleLogout() {
+    supabase.auth.signOut();
+    router.push("/login");
+  }
+
   return (
     <div>
       {!session ? (
@@ -125,7 +131,7 @@ export default function AccountPage() {
               <div className="mb-4">
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-8 rounded-md text-md shadow-md shadow-gray-300"
-                  onClick={() => supabase.auth.signOut()}
+                  onClick={() => handleLogout()}
                 >
                   Log Out
                 </button>

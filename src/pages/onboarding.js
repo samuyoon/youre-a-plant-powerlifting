@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { v4 } from "uuid";
 
 export default function OnboardingPage() {
@@ -8,6 +8,7 @@ export default function OnboardingPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   //  answers is a list-- and order is sensitive for call to Supabase
   const [answers, setAnswers] = useState([]);
+  const session = useSession();
 
   //  List sent when Test Onboarding is pressed-- delete after
   async function testOnboarding() {
@@ -16,6 +17,7 @@ export default function OnboardingPage() {
       id: v4(),
       gender: testAnswers[0],
       weekly_frequency: testAnswers[1],
+      user_id: session.user.id,
     });
     if (error) {
       console.log(error);
