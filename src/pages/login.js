@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <div className="items-center justify-center mx-12 h-screen">
       <Auth
-        redirectTo="http://localhost:3001/loginrouting/"
+        redirectTo="http://localhost:3001/loginrouting"
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
         theme="default"
