@@ -53,11 +53,6 @@ export default function HistoryPage() {
           </div>
           <HistoryCard />
           <HistoryCard />
-          <div className="flex justify-center mt-4 mb-16">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-md text-lg shadow-md shadow-gray-300">
-              Finish Workout
-            </button>
-          </div>
         </Layout>
       )}
     </div>

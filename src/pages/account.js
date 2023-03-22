@@ -43,7 +43,6 @@ export default function AccountPage() {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      //   alert("Error loading user data!");
       console.log(error);
     } finally {
       setLoading(false);

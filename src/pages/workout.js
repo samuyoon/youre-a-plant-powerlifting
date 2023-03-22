@@ -4,8 +4,6 @@ import LoginPage from "@/pages/login";
 
 import { useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 export default function WorkoutPage() {
   const supabase = useSupabaseClient();
@@ -23,7 +21,7 @@ export default function WorkoutPage() {
       ) : (
         // otherwise, go to the workoutpage
         <Layout>
-          <div className="mt-16">
+          <div className="">
             <Card>
               <div className=" overflow-hidden rounded-md pb-4">
                 <div className="flex flex-col items-center">
@@ -81,6 +79,11 @@ export default function WorkoutPage() {
                 </div>
               </div>
             </Card>
+          </div>
+          <div className="flex justify-center mt-4 mb-16">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-md text-lg shadow-md shadow-gray-300">
+              Finish Workout
+            </button>
           </div>
         </Layout>
       )}

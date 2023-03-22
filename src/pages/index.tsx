@@ -1,6 +1,4 @@
-import HistoryCard from "@/components/HistoryCard";
 import Layout from "@/components/Layout";
-import { useRouter } from "next/router";
 import React from "react";
 import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";

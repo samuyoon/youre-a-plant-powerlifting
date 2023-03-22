@@ -1,15 +1,29 @@
 import React, { useState } from "react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { v4 } from "uuid";
 
 export default function OnboardingPage() {
+  const supabase = useSupabaseClient();
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  //  answers is a map-- and order is sensitive for call to Supabase
-  const [answers, setAnswers] = useState({});
+  //  answers is a list-- and order is sensitive for call to Supabase
+  const [answers, setAnswers] = useState([]);
+
+  //  List sent when Test Onboarding is pressed-- delete after
+  async function testOnboarding() {
+    const testAnswers = ["male", "3x per week"];
+    const { error } = await supabase.from("onboarding").insert({
+      id: v4(),
+      gender: testAnswers[0],
+      weekly_frequency: testAnswers[1],
+    });
+    if (error) {
+      console.log(error);
+    }
+  }
 
   const handleAnswerChange = (value) => {
-    setAnswers({
-      ...answers,
-      [`question-${currentQuestionIndex}`]: value,
-    });
+    setAnswers([...answers, value]);
   };
 
   const handleNextClick = () => {
@@ -98,6 +112,13 @@ export default function OnboardingPage() {
           Continue
         </button>
       </div>
+      {/* testing button, delete this button after testing */}
+      <button
+        onClick={testOnboarding}
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-12"
+      >
+        Test Onboarding
+      </button>
     </div>
   );
 }
