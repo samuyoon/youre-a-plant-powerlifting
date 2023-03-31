@@ -1,12 +1,12 @@
 import Layout from "@/components/Layout";
 import React from "react";
 import Image from "next/image";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession } from "@supabase/auth-helpers-react";
 import LoginPage from "@/pages/login";
 
 export default function Home() {
   const session = useSession();
-  const supabase = useSupabaseClient();
+
   return (
     <div>
       {/* if there's no session, display auth component */}

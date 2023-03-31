@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { v4 } from "uuid";
+import { useRouter } from "next/router";
 
 export default function OnboardingPage() {
   const supabase = useSupabaseClient();
@@ -9,23 +10,58 @@ export default function OnboardingPage() {
   //  answers is a list-- and order is sensitive for call to Supabase
   const [answers, setAnswers] = useState([]);
   const session = useSession();
+  const router = useRouter();
 
   //  List sent when Test Onboarding is pressed-- delete after
-  async function testOnboarding() {
-    const testAnswers = ["male", "3x per week"];
+  //   async function testOnboarding() {
+  //     const testAnswers = ["male", "3x per week"];
+  //     const { error } = await supabase.from("onboarding").insert({
+  //       id: v4(),
+  //       gender: testAnswers[0],
+  //       weekly_frequency: testAnswers[1],
+  //       user_id: session.user.id,
+  //     });
+  //     if (error) {
+  //       console.log(error);
+  //     }
+  //   }
+
+  async function uploadAnswers() {
     const { error } = await supabase.from("onboarding").insert({
       id: v4(),
-      gender: testAnswers[0],
-      weekly_frequency: testAnswers[1],
+      // index order matters-- with answers[index]
+      experience: answers[0],
+      frequency: answers[1],
+      goals: answers[2],
+      squat_workload: answers[3],
+      bench_workload: answers[4],
+      deadlift_workload: answers[5],
+      squat_schema: answers[6],
+      bench_schema: answers[7],
+      deadlift_schema: answers[8],
       user_id: session.user.id,
     });
     if (error) {
       console.log(error);
     }
+    // clear answers
+    setAnswers([]);
+    // navigate to home page after submitting answers
+    router.push("/");
   }
 
   const handleAnswerChange = (value) => {
-    setAnswers([...answers, value]);
+    if (currentQuestionIndex > answers.length) {
+      setAnswers([...answers, value]);
+    } else {
+      answers[currentQuestionIndex] = value;
+      setAnswers([...answers]);
+    }
+
+    // as long as its not last question, question selection advances to next question - currenty doesn't work
+    if (currentQuestionIndex !== answers.length - 1) {
+      handleNextClick();
+    }
   };
 
   const handleNextClick = () => {
@@ -35,7 +71,6 @@ export default function OnboardingPage() {
   const handleBackClick = () => {
     setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
-  console.log(answers);
 
   const progress = (currentQuestionIndex / questions.length) * 100;
 
@@ -75,7 +110,7 @@ export default function OnboardingPage() {
               onClick={() => handleAnswerChange(choice)}
               className={`border border-gray-400 hover:bg-blue-500 hover:text-white rounded-lg py-2 px-4 mb-2 
 			  ${
-          answers[`question-${currentQuestionIndex}`] === choice
+          answers[currentQuestionIndex] === choice
             ? "bg-blue-500 text-white"
             : "bg-white text-gray-700"
         }`}
@@ -107,20 +142,23 @@ export default function OnboardingPage() {
             Back
           </button>
         )}
-        <button
-          onClick={handleNextClick}
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg"
-        >
-          Continue
-        </button>
+        {currentQuestionIndex !== questions.length - 1 ? (
+          <button
+            onClick={handleNextClick}
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+          >
+            Continue
+          </button>
+        ) : (
+          // currentQuestionIndex === questions.length - 1 ?
+          <button
+            onClick={uploadAnswers}
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+          >
+            Submit
+          </button>
+        )}
       </div>
-      {/* testing button, delete this button after testing */}
-      <button
-        onClick={testOnboarding}
-        className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-12"
-      >
-        Test Onboarding
-      </button>
     </div>
   );
 }

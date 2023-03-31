@@ -22,7 +22,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     getProfile();
-  }, [session]);
+  }, []);
 
   async function getProfile() {
     try {
@@ -75,7 +75,7 @@ export default function AccountPage() {
 
   async function handleLogout() {
     supabase.auth.signOut();
-    router.push("/login");
+    router.push("/");
   }
 
   return (
