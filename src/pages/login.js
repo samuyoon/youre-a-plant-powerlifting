@@ -17,7 +17,7 @@ export default function LoginPage() {
       console.log(event, session);
       setSession(session);
       if (session) {
-        router.push("/history");
+        router.push("/history"); // fix this-- this keeps pushing users to history page
       }
     });
   });

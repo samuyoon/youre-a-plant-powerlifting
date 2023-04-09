@@ -98,6 +98,7 @@ export default function OnboardingPage() {
         <input
           type="text"
           name={`question-${currentQuestion.id}`}
+          // text question type is out of date-- see value below-- fix befor using
           value={answers[`question-${currentQuestion.id}`] || ""}
           onChange={handleAnswerChange}
           className="block w-full border border-gray-400 rounded-lg py-2 px-4 mb-4"
