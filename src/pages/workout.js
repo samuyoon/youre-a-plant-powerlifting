@@ -5,9 +5,11 @@ import LoginPage from "@/pages/login";
 import { useEffect, useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import MovementInputCard from "../components/ExerciseInputCard";
+import { useRouter } from "next/router";
 
 export default function WorkoutPage() {
   const supabase = useSupabaseClient();
+  const router = useRouter();
   const session = useSession();
   const [currentWeek, setCurrentWeek] = useState("");
   const [currentSession, setCurrentSession] = useState("");
@@ -61,6 +63,7 @@ export default function WorkoutPage() {
 
   //mark each exercise as complete
   const handleFinishWorkout = async () => {
+    // doesn't refresh the screen-- must navigate to new page and come back
     const { data, error } = await supabase
       .from("workout_logs")
       .update({ completed: true })
@@ -71,6 +74,8 @@ export default function WorkoutPage() {
     if (error) {
       console.log(error);
     }
+
+    router.push("/history"); // nav to history page after finished workout
   };
 
   useEffect(() => {

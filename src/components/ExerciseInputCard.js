@@ -8,30 +8,29 @@ export default function ExerciseInputCard({
   exercise,
 }) {
   const supabase = useSupabaseClient();
-  //   const [load, setLoad] = useState("");
-  //   const [reps, setReps] = useState("");
-  //   const [rpe, setRpe] = useState("");
-  //   const inputs = [load, reps, rpe];
 
   // create a function that marks workout_logs records as completed = true for all records in current session
 
   // update call on change if load, rpe and reps are filled in
+  function handleInputChange() {
+    const loadInput = document.getElementById(`${exercise.id}-load`);
+    const repsInput = document.getElementById(`${exercise.id}-reps`);
+    const rpeInput = document.getElementById(`${exercise.id}-rpe`);
 
-  const inputs = document.querySelectorAll(".overflow-hidden input"); // returns an array-like of all HTML elements === input within the div with overflow-hidden class
-  inputs.forEach((input) => {
-    // for each of the elements in the array-like called 'input'
-    input.addEventListener("change", async () => {
-      // listens for each time the value of the input field change (not after each keystroke)
-      const load = document.getElementById(`${exercise.id}-load`).value; // gets the current value by it's unique id attribute
-      const reps = document.getElementById(`${exercise.id}-reps`).value;
-      const rpe = document.getElementById(`${exercise.id}-rpe`).value;
+    if (loadInput.value && repsInput.value && rpeInput.value) {
+      // make database call using the values of the input fields
+      const load = loadInput.value;
+      const reps = repsInput.value;
+      const rpe = rpeInput.value;
 
-      await updateLogRecord(load, reps, rpe); // calls updateLogRecord
-    });
-  });
+      // call a function that makes a database call with the input values
+      updateLogRecord(load, reps, rpe);
+    }
+  }
 
   async function updateLogRecord(load, reps, rpe) {
     // updates workout_logs table in supabase
+    console.log("update log records");
     const { data, error } = await supabase
       .from("workout_logs")
       .update({ actual_load: load, actual_reps: reps, actual_rpe: rpe })
@@ -74,6 +73,7 @@ export default function ExerciseInputCard({
                     name="load"
                     id={`${exercise.id}-load`} // contains the exercise id so that the querySelectAll only selects this id and not every ExerciseInputCard
                     className={"w-12 h-18 text-center"}
+                    onBlur={handleInputChange}
                   />
                   <h3>lbs</h3>
                 </div>
@@ -86,6 +86,7 @@ export default function ExerciseInputCard({
                     name="reps"
                     id={`${exercise.id}-reps`}
                     className={"w-12 h-18 text-center"}
+                    onBlur={handleInputChange}
                   />
                   <h3>reps</h3>
                 </div>
@@ -98,6 +99,7 @@ export default function ExerciseInputCard({
                     name="rpe "
                     id={`${exercise.id}-rpe`}
                     className={"w-12 h-18 text-center ml-6"}
+                    onBlur={handleInputChange}
                   />
                   <h3>RPE</h3>
                 </div>

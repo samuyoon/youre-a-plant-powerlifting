@@ -29,72 +29,72 @@ export default function HistoryPage() {
     }
   }
 
-  useEffect(() => {
-    // get the number of session and set numSessions-- used later to know how many session arrays to create and store iin sessions[]
-    const fetchWorkouts = async () => {
-      const { data, error } = await supabase.from("workouts_users").select(
-        `
-		id,
-		workouts (
-			frequency
-		)
-		`
-      );
-      if (error) {
-        console.log("fetchworkout error");
-        console.log(error);
-      } else {
-        console.log("fetchworkout data");
-        console.log(data);
-        const frequency = data[0].workouts.frequency; // if no error, get the frequency string out of the data response and do some string manipulation to set numSessions
-        const frequencyAsNum = Number(frequency.charAt(0));
-        setNumSessions(frequencyAsNum);
-      }
-    };
-
-    const fetchWorkoutLogs = async () => {
-      const { data, error } = await supabase
-        .from("workouts_users")
-        .select(
-          `
+  // get the number of session and set numSessions-- used later to know how many session arrays to create and store iin sessions[]
+  const fetchWorkouts = async () => {
+    const { data, error } = await supabase.from("workouts_users").select(
+      `
 		  id,
-		  workout_logs (
-			  exercise_id,
-			  exercise_name,
-			  session,
-			  sets,
-			  target_reps,
-			  target_load,
-			  target_rpe,
-			  actual_reps,
-			  actual_load,
-			  actual_rpe,
-			  week,
-			  ordering,
-			  completed
+		  workouts (
+			  frequency
 		  )
-		  
 		  `
-        )
-        .eq("workout_logs.week", currentWeek)
-        .order("ordering", { foreignTable: "workout_logs", ascending: true });
-      if (error) {
-        console.log("fetchworkoutlogs error");
+    );
+    if (error) {
+      console.log("fetchworkout error");
+      console.log(error);
+    } else {
+      console.log("fetchworkout data");
+      console.log(data);
+      const frequency = data[0].workouts.frequency; // if no error, get the frequency string out of the data response and do some string manipulation to set numSessions
+      const frequencyAsNum = Number(frequency.charAt(0));
+      setNumSessions(frequencyAsNum);
+    }
+  };
 
-        console.log(error);
-      } else {
-        // if no error, get the list of workout_logs records out of the data response to set workoutLogs
-        console.log("fetchworkoutlogs data");
-        console.log(data);
-        setWorkoutLogs(data[0].workout_logs);
-      }
-    };
+  const fetchWorkoutLogs = async () => {
+    const { data, error } = await supabase
+      .from("workouts_users")
+      .select(
+        `
+			id,
+			workout_logs (
+				exercise_id,
+				exercise_name,
+				session,
+				sets,
+				target_reps,
+				target_load,
+				target_rpe,
+				actual_reps,
+				actual_load,
+				actual_rpe,
+				week,
+				ordering,
+				completed
+			)
+			
+			`
+      )
+      .eq("workout_logs.week", currentWeek)
+      .order("ordering", { foreignTable: "workout_logs", ascending: true });
+    if (error) {
+      console.log("fetchworkoutlogs error");
 
+      console.log(error);
+    } else {
+      // if no error, get the list of workout_logs records out of the data response to set workoutLogs
+      console.log("fetchworkoutlogs data");
+      console.log(data);
+      setWorkoutLogs(data[0].workout_logs);
+    }
+  };
+
+  useEffect(() => {
     setIsLoading(true);
     fetchWorkouts();
     fetchWorkoutLogs();
     setIsLoading(false);
-  }, []);
+  }, [currentWeek]);
 
   // show loading screen while fetching Workouts and logs
   if (isLoading) return <div>Loading...</div>;
