@@ -15,7 +15,7 @@ export default function LoginRoutingPage() {
   async function getOnboardingRecord() {
     setLoading(true);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase // only works if RLS is enable on onboarding table
       .from("onboarding")
       .select("created_at");
     console.log(data);

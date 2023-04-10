@@ -35,24 +35,6 @@ export default function WorkoutPage() {
     }
   };
 
-  //   // get current session
-  //   const getCurrentSession = async () => {
-  //     const { data, error } = await supabase
-  //       .from("workout_logs")
-  //       .select("session")
-  //       .eq("week", currentWeek)
-  //       .order("session")
-  //       .limit(1);
-
-  //     if (error) {
-  //       console.log("se");
-
-  //       console.log(error);
-  //     } else {
-  //       setCurrentSession(data[0].session);
-  //     }
-  //   };
-
   // get all of the exercises as array of arrays
   const getExercises = async () => {
     const { data, error } = await supabase
@@ -64,9 +46,13 @@ export default function WorkoutPage() {
 
     if (error) {
       console.log("ex");
+      console.log(currentSession);
+      console.log(currentWeek);
 
       console.log(error);
     } else {
+      console.log("excercise data");
+
       console.log(data);
 
       setCurrentExercises(data);
@@ -79,7 +65,7 @@ export default function WorkoutPage() {
       .from("workout_logs")
       .update({ completed: true })
       .eq("week", currentWeek)
-      .eq("session", currentSession) // can you use a second eq? not and?
+      .eq("session", currentSession)
       .select();
 
     if (error) {
@@ -91,15 +77,25 @@ export default function WorkoutPage() {
     const getData = async () => {
       try {
         await getCurrentWeekAndSession();
-        // await getCurrentSession();
-        await getExercises();
       } catch (error) {
         console.log(error);
       }
     };
     getData();
-  });
+  }, []);
 
+  useEffect(() => {
+    if (currentWeek && currentSession) {
+      const getExerciseData = async () => {
+        try {
+          await getExercises();
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getExerciseData();
+    }
+  }, [currentWeek, currentSession]);
   return (
     <div>
       {!session ? (

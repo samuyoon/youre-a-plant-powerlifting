@@ -3,9 +3,15 @@ import React from "react";
 import Image from "next/image";
 import { useSession } from "@supabase/auth-helpers-react";
 import LoginPage from "@/pages/login";
+import { useRouter } from "next/router";
 
 export default function Home() {
   const session = useSession();
+  const router = useRouter();
+
+  function handleNextWorkout() {
+    router.push("/workout");
+  }
 
   return (
     <div>
@@ -27,7 +33,10 @@ export default function Home() {
               />
             </div>
 
-            <button className="bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-md text-lg shadow-md shadow-gray-300">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white py-4 px-8 rounded-md text-lg shadow-md shadow-gray-300"
+              onClick={handleNextWorkout}
+            >
               Start Next Workout
             </button>
           </div>

@@ -10,9 +10,9 @@ export default function HistoryExercise({ log }) {
       {/* set row 1 */}
       <HistorySetRow
         sets={log.sets}
-        load={log.actual_load}
-        reps={log.actual_reps}
-        rpe={log.actual_rpe}
+        load={log.actual_load ?? 0}
+        reps={log.actual_reps ?? 0}
+        rpe={log.actual_rpe ?? 0}
       />
     </div>
   );

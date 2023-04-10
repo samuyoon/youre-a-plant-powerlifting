@@ -14,10 +14,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
       setSession(session);
-      if (session) {
-        router.push("/history"); // fix this-- this keeps pushing users to history page
+      if (!session) {
+        router.push("/login"); // sends user to login screen if no session
+      } else if (session) {
+        router.push("/loginrouting"); // for email pw sign ins
       }
     });
   });
@@ -25,7 +26,7 @@ export default function LoginPage() {
   return (
     <div className="items-center justify-center mx-12 h-screen">
       <Auth
-        redirectTo={"http://localhost:3001/loginrouting/"}
+        redirectTo={"http://localhost:3000/loginrouting/"} // only for OAuth
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
         theme="default"

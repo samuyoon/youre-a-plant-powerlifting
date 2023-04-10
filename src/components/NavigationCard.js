@@ -8,20 +8,14 @@ export default function NavigationCard() {
   const router = useRouter();
   const { asPath } = router;
   const activeElementClasses =
-    "flex py-3 my-1 -mx-6 px-8 gap-3 text-md bg-blue-500 text-white rounded-md shadow-md shadow-gray-300";
+    "text-sm md:text-md flex gap-1 md:gap-3 py-3 my-1 bg-blue-500 text-white md:-mx-7 px-6 md:px-7 rounded-md shadow-md shadow-gray-300 items-center";
   const nonActiveElementClasses =
-    "text-md flex gap-3 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 -mx-4 px-6 px-4 my-2 py-2 rounded-md transition-all hover:scale-110 hover:shadow-md hover:shadow-gray-300";
+    "text-sm md:text-md flex gap-1 md:gap-3 py-2 my-2 hover:bg-blue-500 hover:bg-opacity-20 md:-mx-4 px-6 md:px-4 rounded-md transition-all hover:scale-110 hover:shadow-md shadow-gray-300 items-center";
 
-  async function signout() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.log(error);
-    }
-  }
   return (
     <Card>
-      <div className="p-4 py-2">
-        <h2 className="text-gray-400 mb-3">Navigation</h2>
+      <div className="p-4 py-2 flex md:block">
+        <h2 className="text-gray-400 mb-3 hidden md:block">Navigation</h2>
         <Link
           href="/"
           className={
@@ -42,7 +36,7 @@ export default function NavigationCard() {
               d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
             />
           </svg>
-          <span className="block">Home</span>
+          <span className="hidden md:block">Home</span>
         </Link>
         <Link
           href="/workout"
@@ -66,7 +60,7 @@ export default function NavigationCard() {
               d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
             />
           </svg>
-          <span className="block">Workout</span>
+          <span className="hidden md:block">Workout</span>
         </Link>
         <Link
           href="/history"
@@ -90,7 +84,7 @@ export default function NavigationCard() {
               d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
             />
           </svg>
-          <span className="block">History</span>
+          <span className="hidden md:block">History</span>
         </Link>
         <Link
           href="/account"
@@ -114,9 +108,9 @@ export default function NavigationCard() {
               d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-          <span className="block">Account</span>
+          <span className="hidden md:block">Account</span>
         </Link>
-        <Link
+        {/* <Link
           href="/onboarding"
           className={
             asPath === "/onboarding"
@@ -144,8 +138,8 @@ export default function NavigationCard() {
             />
           </svg>
 
-          <span className="block">Initalization (demo)</span>
-        </Link>
+          <span className="hidden md:block">Initalization (demo)</span>
+        </Link> */}
         {/* <button onClick={signout} className="w-full -my-2">
           <span className={nonActiveElementClasses}>
             <svg
@@ -162,7 +156,7 @@ export default function NavigationCard() {
                 d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
               />
             </svg>
-            <span className="hidden md:block">Logout</span>
+            <span className="hidden md:blockLogout</span>
           </span>
         </button> */}
       </div>
