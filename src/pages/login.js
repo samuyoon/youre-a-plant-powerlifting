@@ -26,7 +26,9 @@ export default function LoginPage() {
   return (
     <div className="items-center justify-center mx-12 h-screen">
       <Auth
-        redirectTo={window.location.origin}
+        redirectTo={
+          "https://youre-a-plant-powerlifting.vercel.app/loginrouting"
+        } // only for OAuth
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
         theme="default"
