@@ -9,6 +9,8 @@ export default function OnboardingPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   //  answers is a list-- and order is sensitive for call to Supabase
   const [answers, setAnswers] = useState([]);
+  const [isAnswerSelected, setIsAnswerSelected] = useState(false); // Added state to track if an answer is selected
+
   const session = useSession();
   const router = useRouter();
 
@@ -57,8 +59,8 @@ export default function OnboardingPage() {
       answers[currentQuestionIndex] = value;
       setAnswers([...answers]);
     }
+    setIsAnswerSelected(true); // Set isAnswerSelected to true when an answer is selected
 
-    // as long as its not last question, question selection advances to next question - currenty doesn't work
     if (currentQuestionIndex !== answers.length - 1) {
       handleNextClick();
     }
@@ -66,10 +68,12 @@ export default function OnboardingPage() {
 
   const handleNextClick = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setIsAnswerSelected(false); // Set isAnswerSelected to false when moving to the next question
   };
 
   const handleBackClick = () => {
     setCurrentQuestionIndex(currentQuestionIndex - 1);
+    setIsAnswerSelected(true); // Set isAnswerSelected to false when moving to the next question
   };
 
   const progress = (currentQuestionIndex / questions.length) * 100;
@@ -147,6 +151,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleNextClick}
             className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+            disabled={!isAnswerSelected}
           >
             Continue
           </button>
@@ -155,6 +160,7 @@ export default function OnboardingPage() {
           <button
             onClick={uploadAnswers}
             className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+            disabled={!isAnswerSelected}
           >
             Submit
           </button>
